@@ -24,6 +24,9 @@ namespace GreatNotify.Models
                 case EActionType.Remove:
                     Console.WriteLine($"{Name} - {notificationEvent.Name} left the {notificationEvent.Domain} :)");
                     break;
+                case EActionType.Notify:
+                    Console.WriteLine($"{notificationEvent.Name} is  tall {notificationEvent.Height}");
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

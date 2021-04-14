@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using GreatNotify.Base;
 using GreatNotify.Contracts;
 using GreatNotify.Events;
@@ -24,11 +27,38 @@ namespace GreatNotify.Models
             return removedPerson;
         }
 
-        protected override IPerson Calculate()
+        protected override object Calculate()
         {
-            var peopleAbove18 = Participants.Where(x => x.DateOfBirth.Year >= DateTime.Now.Year - 18).ToList();
-            var mvp = peopleAbove18.FirstOrDefault(x => x.Height  == peopleAbove18.Max(person=> person.Height) );
-            return mvp;
+            foreach (var participant in Participants)
+            {
+                var eventArgs = new NotificationEventArgs(EActionType.Notify, nameof(ChatRoom), participant.FirstName,
+                    participant.Height);
+                base.OnPublish(eventArgs);
+            }
+
+            return null;
+        }
+        //I am well aware of the concurrent types and bags
+        protected void CalculateSafe(List<Person> participants)
+        {
+            foreach (var participant in participants)
+            {
+                var eventArgs = new NotificationEventArgs(EActionType.Notify, nameof(ChatRoom), participant.FirstName,
+                    participant.Height);
+                base.OnPublish(eventArgs);
+            }
+        }
+
+        public void Schedule(int ms)
+        {
+            //Easier to implement I could use concurrent bags instead of state. its a give or take.
+            Task.Factory.StartNew((state) =>
+            {
+                var participants = (List<Person>) state;
+                CalculateSafe(participants);
+                Thread.Sleep(ms);
+                Schedule(ms);
+            },Participants.ToList());
         }
     }
 

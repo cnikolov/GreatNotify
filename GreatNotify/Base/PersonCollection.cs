@@ -6,7 +6,7 @@ namespace GreatNotify.Base
     //My personal choice would be to use generics <T>
     public abstract class PersonCollection<T>
     {
-        protected IList<T> Participants { get; set; } = new List<T>();
+        protected List<T> Participants { get; set; } = new List<T>();
         public virtual event EventHandler<EventArgs> Publish;
 
 
