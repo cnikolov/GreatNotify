@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GreatNotify.Base;
-using GreatNotify.Contracts;
 using GreatNotify.Events;
 
 namespace GreatNotify.Models
@@ -27,19 +25,14 @@ namespace GreatNotify.Models
             return removedPerson;
         }
 
-        protected override object Calculate()
+        protected override Person Calculate()
         {
-            foreach (var participant in Participants)
-            {
-                var eventArgs = new NotificationEventArgs(EActionType.Notify, nameof(ChatRoom), participant.FirstName,
-                    participant.Height);
-                base.OnPublish(eventArgs);
-            }
+            var niceDev = Participants.FirstOrDefault(x => x.Height > 180);
 
-            return null;
+            return niceDev;
         }
         //I am well aware of the concurrent types and bags
-        protected void CalculateSafe(List<Person> participants)
+        protected void CalculateScore(List<Person> participants)
         {
             foreach (var participant in participants)
             {
@@ -55,7 +48,7 @@ namespace GreatNotify.Models
             Task.Factory.StartNew((state) =>
             {
                 var participants = (List<Person>) state;
-                CalculateSafe(participants);
+                CalculateScore(participants);
                 Thread.Sleep(ms);
                 Schedule(ms);
             },Participants.ToList());
