@@ -4,15 +4,21 @@ namespace GreatNotify.Events
 {
     public class NotificationEventArgs : EventArgs
     {
-        public string Action { get; init; }
+        public EActionType ActionType { get; init; }
         public string Domain { get; init; }
         public string Name { get; init; }
 
-        public NotificationEventArgs(string action, string domain, string name)
+        public NotificationEventArgs(EActionType actionType, string domain, string name)
         {
-            Action = action;
+            ActionType = actionType;
             Domain = domain;
             Name = name;
         }
+    }
+
+    public enum EActionType
+    {
+        Add,
+        Remove
     }
 }

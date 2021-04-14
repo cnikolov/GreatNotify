@@ -28,6 +28,7 @@ namespace GreatNotify
             chatRoom.Publish += subscriber.Notify;
             chatRoom.Add(developer);
             chatRoom.Add(headOfRecruitment);
+            chatRoom.Remove(developer);
         }
     }
 }

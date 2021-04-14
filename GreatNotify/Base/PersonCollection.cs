@@ -6,7 +6,7 @@ namespace GreatNotify.Base
     //My personal choice would be to use generics <T>
     public abstract class PersonCollection<T>
     {
-        protected IEnumerable<T> Participants { get; set; } = new List<T>();
+        protected IList<T> Participants { get; set; } = new List<T>();
         public virtual event EventHandler<EventArgs> Publish;
 
 
@@ -16,17 +16,11 @@ namespace GreatNotify.Base
         }
         public virtual void Add(T person)
         {
-            //TODO
-        }
-
-        //Every little helps. overload might be handy.
-        public virtual void Add(T[] person)
-        {
-            //TODO
+            Participants.Add(person);
         }
         public virtual T Remove(T person)
         {
-            //TODO ADD LOGIC
+            Participants.Remove(person);
             return person;
         }
         //Value could be double/ int keep it flexible.

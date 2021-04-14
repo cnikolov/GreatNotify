@@ -12,8 +12,16 @@ namespace GreatNotify.Models
         {
             base.Add(person);
             //TODO ADD LOGIC
-            var eventArgs = new NotificationEventArgs("joined", nameof(ChatRoom), person.FirstName);
+            var eventArgs = new NotificationEventArgs(EActionType.Add, nameof(ChatRoom), person.FirstName);
             base.OnPublish(eventArgs);
+        }
+
+        public override Person Remove(Person person)
+        {
+            var removedPerson =  base.Remove(person);
+            var eventArgs = new NotificationEventArgs(EActionType.Remove, nameof(ChatRoom), person.FirstName);
+            base.OnPublish(eventArgs);
+            return removedPerson;
         }
 
         protected override IPerson Calculate()

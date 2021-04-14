@@ -16,7 +16,18 @@ namespace GreatNotify.Models
         {
             var notificationEvent = e as NotificationEventArgs;
             if (notificationEvent == null) return;
-            Console.WriteLine($"{Name} - new person {notificationEvent.Action} the {notificationEvent.Domain} with nick ${notificationEvent.Name}");
+            switch (notificationEvent.ActionType)
+            {
+                case EActionType.Add:
+                    Console.WriteLine($"{Name} - new person joined the {notificationEvent.Domain} with nick {notificationEvent.Name}");
+                    break;
+                case EActionType.Remove:
+                    Console.WriteLine($"{Name} - {notificationEvent.Name} left the {notificationEvent.Domain} :)");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
         }
     }
 }
