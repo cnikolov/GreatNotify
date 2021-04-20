@@ -18,7 +18,7 @@ namespace GreatNotify.Base
         {
             Participants.Add(person);
         }
-        public virtual void AddRange(T[] people)
+        public virtual void Add(T[] people)
         {
             Participants.AddRange(people);
         }

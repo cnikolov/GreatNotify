@@ -18,9 +18,9 @@ namespace GreatNotify.Models
             base.OnPublish(eventArgs);
         }
         //WC O(n)
-        public override void AddRange(IPerson[] people)
+        public override void Add(IPerson[] people)
         {
-            base.AddRange(people);
+            base.Add(people);
             foreach (var person in people)
             {
                 var eventArgs = new NotificationEventArgs(EActionType.Add, nameof(ChatRoom), person.FirstName);
