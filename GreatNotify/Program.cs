@@ -26,10 +26,13 @@ namespace GreatNotify
             var chatRoom = new ChatRoom();
             var subscriber = new Subscriber("Jonathan Green");
             chatRoom.Publish += subscriber.Notify;
-            chatRoom.Schedule(10000);
+            
             chatRoom.Add(developer);
             chatRoom.Add(headOfRecruitment);
-            chatRoom.Remove(developer);
+            chatRoom.Schedule(1000 * 60);
+            chatRoom.Remove();
+            
+
             Console.ReadLine();
         }
     }

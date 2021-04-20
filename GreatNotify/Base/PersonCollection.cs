@@ -18,12 +18,16 @@ namespace GreatNotify.Base
         {
             Participants.Add(person);
         }
-        public virtual T Remove(T person)
+        public virtual void AddRange(T[] people)
         {
+            Participants.AddRange(people);
+        }
+        public virtual T Remove()
+        {
+            var person = Calculate();
             Participants.Remove(person);
             return person;
         }
-        //Value could be double/ int keep it flexible.
-        protected abstract object Calculate();
+        protected abstract T Calculate();
     }
 }
